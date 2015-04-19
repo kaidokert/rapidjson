@@ -104,6 +104,7 @@ public:
     MemoryPoolAllocator(size_t chunkSize = kDefaultChunkCapacity, BaseAllocator* baseAllocator = 0) : 
         chunkHead_(0), chunk_capacity_(chunkSize), userBuffer_(0), baseAllocator_(baseAllocator), ownBaseAllocator_(0)
     {
+		RAPIDJSON_ASSERT(baseAllocator);
     }
 
     //! Constructor with user-supplied buffer.
