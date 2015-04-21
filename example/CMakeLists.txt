@@ -12,6 +12,7 @@ set(EXAMPLES
     simpledom
     simplereader
     simplewriter
+    look_ma_no_heap
     tutorial)
 
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")

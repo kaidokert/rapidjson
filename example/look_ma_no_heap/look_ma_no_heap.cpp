@@ -13,13 +13,18 @@ using namespace std;
 struct CustomAlloc {
 	unsigned char * buffer;
 	size_t capacity;
-	CustomAlloc(size_t cap , unsigned char *b) : buffer(b),capacity(cap) {
+    size_t watermark;
+	CustomAlloc(size_t cap , unsigned char *b) : 
+        buffer(b),
+        capacity(cap),
+        watermark(0) {
 	}
 	CustomAlloc() { 
 		RAPIDJSON_ASSERT(0); 
 	}
 	void * Realloc(void * origin, size_t o_size, size_t new_size) { 
 		RAPIDJSON_ASSERT(new_size <= capacity);
+        watermark = o_size;
 		if (origin == buffer) {
 			return buffer;
 		}
@@ -29,8 +34,10 @@ struct CustomAlloc {
 	}
 	static void Free(void *) {}
 	void * Malloc(size_t sz) { 
-		RAPIDJSON_ASSERT(sz < capacity);
-		return buffer; 
+		RAPIDJSON_ASSERT(watermark + sz <= capacity);
+        void * ret = buffer + watermark;
+        watermark += sz;
+		return ret; 
 	}
 };
 
