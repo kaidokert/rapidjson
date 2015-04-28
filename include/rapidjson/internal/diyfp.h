@@ -19,11 +19,11 @@
 #ifndef RAPIDJSON_DIYFP_H_
 #define RAPIDJSON_DIYFP_H_
 
-#if defined(_MSC_VER)
+#include "../rapidjson.h"
+
+#if defined(_MSC_VER) && defined(_M_AMD64)
 #include <intrin.h>
-#if defined(_M_AMD64)
 #pragma intrinsic(_BitScanReverse64)
-#endif
 #endif
 
 RAPIDJSON_NAMESPACE_BEGIN
