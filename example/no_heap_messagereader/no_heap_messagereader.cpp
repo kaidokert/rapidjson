@@ -83,7 +83,7 @@ struct PreventCrtAlloc {
 typedef MemoryPoolAllocator<PreventCrtAlloc> myPoolAlloc;
 typedef GenericReader<UTF8<>, UTF8<>, myPoolAlloc> myReader;
 
-void ParseMessages(const char* json, MessageMap& messages) {
+void ParseMessages(char* json, MessageMap& messages) {
     PreventCrtAlloc crtAllocPreventer;
     unsigned char parseBuffer[48];
     size_t chunk_1 = 20;
@@ -94,7 +94,7 @@ void ParseMessages(const char* json, MessageMap& messages) {
     myReader reader(&parseAllocator, chunk_2);
 
     MessageHandler handler;
-    StringStream ss(json);
+    InsituStringStream ss(json);
     if (reader.Parse(ss, handler))
         messages.swap(handler.messages_);   // Only change it if success.
     else {
@@ -109,7 +109,7 @@ void ParseMessages(const char* json, MessageMap& messages) {
 int main() {
     MessageMap messages;
 
-    const char* json1 = "{ \"greeting\" : \"Hello!\", \"farewell\" : \"bye-bye!\" }";
+    char json1[] = "{ \"greeting\" : \"Hello!\", \"farewell\" : \"bye-bye!\" }";
     cout << json1 << endl;
     ParseMessages(json1, messages);
 
@@ -117,7 +117,7 @@ int main() {
         cout << itr->first << ": " << itr->second << endl;
 
     cout << endl << "Parse a JSON with invalid schema." << endl;
-    const char* json2 = "{ \"greeting\" : \"Hello!\", \"farewell\" : \"bye-bye!\", \"foo\" : {} }";
+    char json2[] = "{ \"greeting\" : \"Hello!\", \"farewell\" : \"bye-bye!\", \"foo\" : {} }";
     cout << json2 << endl;
     ParseMessages(json2, messages);
 
