@@ -14,6 +14,7 @@ set(EXAMPLES
     simplewriter
     look_ma_no_heap
     simple_no_heap
+    no_heap_messagereader
     tutorial)
 
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
